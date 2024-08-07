@@ -1,51 +1,45 @@
-import { useState, useEffect} from 'react'
-import './App.css'
+import {useState} from 'react'
+import QrApp from './qr/QrApp.jsx'
+import BmiApp from './bmi/BmiApp.jsx'
 
-function App() {
-  const [temp, setTemp] = useState("");
-  const [word, setWord] = useState(""); //input
-  const [size, setSize] = useState(100); //size by pixel
-  const [bgColor, setBgColor] = useState("ffffff");
-  const [qrCode, setQrCode] = useState("");
+const App = () => {
+    const appName = [
+        {"QR Code Generator": QrApp},
+        {"BMI Calculator": BmiApp}
+    ]
 
-  useEffect(()=>{
-    setQrCode(`http://api.qrserver.com/v1/create-qr-code/?data=${word}!&size=${size}x${size}&bgcolor=${bgColor}`);
-  }, [word, size, bgColor]) //use effect triggers when one of the following variables are changed.
+    //const [appNum, setAppNum] = useState(appName.length) //for later use,
+    
+    
+    // Generate gallery items based on the static appName array
+    const galleryItems = appName.map((item, index) => { //in react, map can be used to "populate".
+        const appTitle = Object.keys(item)[0]
+        const AppComponent = item[appTitle]
+        const row = Math.round(index/10) + 1
+        const col = index%4 +1
 
-  function handleClick() {
-    setWord(temp); //on click, change "word" state to the value from temp.
-  }
+        return (
+            <div key={index} className="gallery-item" style={{gridRow: row + "/ span 1", gridColumn: col}}>
+                <p>App {index + 1} - {appTitle}</p>
+                < AppComponent />
+            </div>
+        )
+    });
 
-  return (
-    <div className="App">
-
-      <h1>QR Code Generator</h1>
-      <div className="input-box">
-
-        <div className="gen aligned">
-          <label htmlFor="qrInput">Text to QR Code:</label>
-          <input type="text" id="qrInput" onChange={(e) => {setTemp(e.target.value)}} placeholder="Enter your text" />
-          <button onClick={handleClick}>Generate</button>
-        </div>
-      
-        <div className="extra aligned">
-          <h5>Background Color:</h5>
-          <input type="color" onChange={(e) => { setBgColor(e.target.value.substring(1))}} />
-          <h5>Dimensions:</h5>
-          <input type="range" min="50" max="600" value={size} onChange={(e) => {setSize(e.target.value)}}/>
-        </div>
-        
-      </div> 
-
-      <div className="output-Box">
-        <img src={qrCode} alt=""/>
-        <a href={qrCode} download="QRCode">
-          <button type="button">Download</button>
-        </a>
-      </div>
-
-    </div>
-  )
+    return (
+        <>
+            <div className="appsPreview">
+                <div style={{gridRow: 1, gridColumn: 1}}>
+                    <h1 style={{color: "black"}}><img/>DXM Applets</h1>
+                    <h3 style={{color: "black"}}>Powered by React.js <img id="reactLogo" src="https://cdn.worldvectorlogo.com/logos/react-2.svg"></img></h3>
+                </div>   
+                <div className="appGallery">
+                    {galleryItems}
+                </div>
+            </div>
+        </>
+    )
 }
+
 
 export default App

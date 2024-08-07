@@ -1,4 +1,5 @@
-@import url('http://fonts.cdnfonts.com/css/lilly');
+
+@import url('https://fonts.cdnfonts.com/css/fixedsys-62');
 
 #root {
   max-width: 1280px;
@@ -25,9 +26,11 @@
   gap: 50px;
   padding-top: 30px;
   filter: drop-shadow(0px 0px 1px black);
+  min-height: 100%;
+  min-width: 90%;
 }
 h1{
-  font-family: 'Lilly', sans-serif;
+  font-family: 'Fixedsys 62', sans-serif;
   font-size: 50px;
 }
 .aligned{
